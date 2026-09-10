@@ -72,8 +72,27 @@ def svm_objective(x, y, params, reg_lambda):
 
     return regularized_loss
 
-# Step 7 - compute_gradients (not yet solved)
-# TODO: implement
+# Step 7 - compute_gradients
+import numpy as np
+
+def compute_gradients(x, y, params, reg_lambda):
+    """Return {'dw': ndarray shape (n_features,), 'db': float} = gradient of svm_objective."""
+    # TODO: compute the gradient of the SVM objective wrt params['w'] and params['b'].
+    n = x.shape[0]
+
+    scores = compute_scores(x, params)
+
+    margins = hinge_loss_example(scores, y)
+
+    mask = margins > 0
+
+    dw = - (1/n) * (x.T @ (mask * y)) + (2 * reg_lambda * params['w'])
+    db = - (1/n) * (np.sum(mask * y))
+
+    return {
+        'dw': dw,
+        'db': db
+    }
 
 # Step 8 - apply_update (not yet solved)
 # TODO: implement
